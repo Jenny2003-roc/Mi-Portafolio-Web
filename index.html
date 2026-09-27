@@ -477,11 +477,44 @@
       </div>
     </section>
 
-    <section class="section section--alt" id="contacto" aria-labelledby="contacto-titulo">
-      <div class="container">
-        <h2 id="contacto-titulo">Contacto</h2>
+     <section class="section section--alt" id="contacto" aria-labelledby="contacto-titulo">
+      <div class="container contact">
+        <div>
+          <h2 id="contacto-titulo">Contacto</h2>
+          <p class="text-muted">¿Tienes un proyecto o una consulta? Escríbeme y te respondo.</p>
+          <ul class="contact__list">
+            <li><a href="mailto:jvasquezl4@unemi.edu.ec"><svg class="icon icon--stroke" aria-hidden="true"><use href="#i-mail"/></svg>jvasquezl4@unemi.edu.ec</a></li>
+            <li><a href="https://github.com/Jenny2003-roc" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+          </ul>
+        </div>
+
+        <form class="form form-box" id="contact-form" novalidate data-to="jvasquezl4@unemi.edu.ec" data-endpoint="https://api.web3forms.com/submit" data-access-key="6ab9c1bb-098a-4867-b67f-9ecf5620ad85" aria-labelledby="form-titulo">
+          <input class="visually-hidden" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <h3 class="form-box__title" id="form-titulo">Envíame un mensaje</h3>
+          <div class="field">
+            <label class="field__label" for="nombre">Nombre</label>
+            <input class="input" id="nombre" name="nombre" type="text" autocomplete="name" required minlength="3" placeholder="Tu nombre completo" aria-describedby="error-nombre">
+            <p class="field__error" id="error-nombre"></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="correo">Correo electrónico</label>
+            <input class="input" id="correo" name="correo" type="email" autocomplete="email" required placeholder="jvasquezl4@unemi.edu.ec" aria-describedby="error-correo">
+            <p class="field__error" id="error-correo"></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="mensaje">Mensaje</label>
+            <textarea class="textarea" id="mensaje" name="mensaje" required minlength="20" placeholder="Cuéntame en qué puedo ayudarte" aria-describedby="error-mensaje"></textarea>
+            <p class="field__error" id="error-mensaje"></p>
+          </div>
+          <div>
+            <button class="btn btn--primary" id="form-submit" type="submit">Enviar mensaje</button>
+          </div>
+          <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
+
+  </main>
 
   </main>
 

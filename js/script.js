@@ -94,3 +94,82 @@
   }
 
 })();
+
+  /* ---------- 4. Filtro de proyectos ---------- */
+  const filterButtons = document.querySelectorAll('.filter-bar [data-filter]');
+  const projectCards = document.querySelectorAll('#projects-grid .project-card');
+  const filterStatus = document.getElementById('filter-status');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      let visible = 0;
+
+      filterButtons.forEach((btn) => btn.setAttribute('aria-pressed', String(btn === button)));
+
+      projectCards.forEach((card) => {
+        const techs = card.dataset.tech.split(' ');
+        const match = filter === 'todos' || techs.includes(filter);
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+
+      filterStatus.textContent = `${visible} ${visible === 1 ? 'proyecto mostrado' : 'proyectos mostrados'}`;
+    });
+  });
+
+  const modal = document.getElementById('project-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalProblem = document.getElementById('modal-problem');
+  const modalRole = document.getElementById('modal-role');
+  const modalTech = document.getElementById('modal-tech');
+  const modalLinks = document.getElementById('modal-links');
+  let lastTrigger = null;
+
+  const openProject = (card, trigger) => {
+    modalTitle.textContent = card.querySelector('.card__title').textContent;
+    modalDesc.textContent = card.querySelector('.project-card__desc').textContent;
+    modalProblem.textContent = card.dataset.problem || '';
+    modalRole.textContent = card.dataset.role || '';
+
+    modalTech.replaceChildren(
+      ...[...card.querySelectorAll('.badge')].map((badge) => {
+        const item = document.createElement('li');
+        item.className = 'badge';
+        item.textContent = badge.textContent;
+        return item;
+      })
+    );
+
+    modalLinks.replaceChildren(
+      ...[...card.querySelectorAll('.project-card__repo')].map((link) => {
+        const anchor = document.createElement('a');
+        anchor.className = 'btn btn--primary btn--sm';
+        anchor.href = link.href;
+        anchor.target = '_blank';
+        anchor.rel = 'noopener noreferrer';
+        anchor.textContent = link.textContent;
+        return anchor;
+      })
+    );
+
+    lastTrigger = trigger;
+    modal.showModal();
+  };
+
+  document.querySelectorAll('.js-open-project').forEach((button) => {
+    button.addEventListener('click', () => openProject(button.closest('.project-card'), button));
+  });
+
+  modal.querySelector('.modal__close').addEventListener('click', () => modal.close());
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) modal.close(); // clic en el fondo
+  });
+
+  modal.addEventListener('close', () => {
+    if (lastTrigger) lastTrigger.focus();
+  });
+
+})();

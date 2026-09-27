@@ -257,3 +257,137 @@
       submitBtn.textContent = 'Enviar mensaje';
     }
   });
+
+  const backToTop = document.querySelector('.back-to-top');
+
+  window.addEventListener('scroll', () => {
+    backToTop.hidden = window.scrollY < 500;
+  }, { passive: true });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  });
+
+  const canvas = document.querySelector('.hero__canvas');
+
+  if (canvas && canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    const hero = canvas.parentElement;
+    const LINK_DISTANCE = 150;
+    const MAX_NODES = 80;
+    const colors = { line: '110,168,255', dot: '251,241,222', accent: '255,138,20' };
+    let nodes = [];
+    let width = 0;
+    let height = 0;
+    let frameId = null;
+    let lastTime = 0;
+    let heroVisible = true;
+
+    const hexToRgb = (hex) => {
+      const clean = hex.trim().replace('#', '');
+      const full = clean.length === 3 ? clean.split('').map((c) => c + c).join('') : clean;
+      const n = parseInt(full, 16);
+      return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`;
+    };
+
+    const readColors = () => {
+      const styles = getComputedStyle(root);
+      colors.line = hexToRgb(styles.getPropertyValue('--color-secondary'));
+      colors.dot = hexToRgb(styles.getPropertyValue('--color-text'));
+      colors.accent = hexToRgb(styles.getPropertyValue('--color-primary'));
+    };
+
+    const makeNode = () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 16, 
+      vy: (Math.random() - 0.5) * 16,
+      r: 1.2 + Math.random() * 1.3,
+      accent: Math.random() < 0.12,
+    });
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = hero.clientWidth;
+      height = hero.clientHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const target = Math.min(MAX_NODES, Math.round((width * height) / 16000));
+      while (nodes.length < target) nodes.push(makeNode());
+      nodes.length = target;
+      draw();
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < LINK_DISTANCE) {
+            ctx.strokeStyle = `rgba(${colors.line},${(1 - dist / LINK_DISTANCE) * 0.3})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      nodes.forEach((node) => {
+        ctx.fillStyle = node.accent ? `rgba(${colors.accent},0.9)` : `rgba(${colors.dot},0.55)`;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    };
+
+    const step = (time) => {
+      const dt = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+
+      nodes.forEach((node) => {
+        node.x += node.vx * dt;
+        node.y += node.vy * dt;
+        if (node.x < -10) node.x = width + 10;
+        if (node.x > width + 10) node.x = -10;
+        if (node.y < -10) node.y = height + 10;
+        if (node.y > height + 10) node.y = -10;
+      });
+
+      draw();
+      frameId = requestAnimationFrame(step);
+    };
+
+    const start = () => {
+      if (frameId || prefersReducedMotion || !heroVisible || document.hidden) return;
+      lastTime = performance.now();
+      frameId = requestAnimationFrame(step);
+    };
+
+    const stop = () => {
+      if (frameId) cancelAnimationFrame(frameId);
+      frameId = null;
+    };
+
+    readColors();
+    resize();
+    start();
+
+    window.addEventListener('resize', resize);
+    document.addEventListener('themechange', () => { readColors(); draw(); });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        heroVisible = entry.isIntersecting;
+        if (heroVisible) start(); else stop();
+      }).observe(hero);
+    }
+  }
+})();

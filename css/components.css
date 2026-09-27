@@ -643,6 +643,7 @@
   overflow-x: auto;
   padding-bottom: var(--space-sm);
   scroll-snap-type: x mandatory;
+  contain: layout;  
 }
 
 .grid--projects .project-card {

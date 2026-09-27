@@ -237,9 +237,90 @@
       </div>
     </section>
 
-    <section class="section section--alt" id="proyectos" aria-labelledby="proyectos-titulo">
+<section class="section section--alt" id="proyectos" aria-labelledby="proyectos-titulo">
       <div class="container">
-        <h2 id="proyectos-titulo">Proyectos destacados</h2>
+        <header class="section__header">
+          <h2 id="proyectos-titulo">Proyectos destacados</h2>
+          <p>Proyectos académicos donde combiné desarrollo, IA y gestión. Filtra por tecnología o abre el detalle de cada uno.</p>
+        </header>
+
+        <div class="filter-bar" role="group" aria-label="Filtrar proyectos por tecnología">
+          <button class="chip" type="button" data-filter="todos" aria-pressed="true">Todos</button>
+          <button class="chip" type="button" data-filter="web" aria-pressed="false">Lista de Tareas</button>
+          <button class="chip" type="button" data-filter="gestion" aria-pressed="false">TechCheck Pro</button>
+          <button class="chip" type="button" data-filter="ia" aria-pressed="false">BanaIA</button>
+        </div>
+        <p class="visually-hidden" id="filter-status" role="status" aria-live="polite"></p>
+
+        <div class="grid grid--projects" id="projects-grid">
+
+          <article class="card project-card" data-tech="web"
+            data-problem="Organizar y dar seguimiento a las tareas de la materia Técnica de Programación de forma manual dificultaba priorizar pendientes y ver el avance del trabajo."
+            data-role="Diseño y desarrollo de la aplicación web de lista de tareas.">
+            <figure class="project-card__media">
+              <img src="assets/proyecto-ti.svg" alt="Ilustración de una lista de tareas con elementos marcados como pendientes y completados" width="800" height="450">
+              <figcaption>Portada de la Lista de Tareas</figcaption>
+            </figure>
+            <div class="card__body">
+              <h3 class="card__title">Lista de Tareas — Técnica de Programación</h3>
+              <p class="project-card__desc">Aplicación para crear, organizar y marcar tareas como completadas, desarrollada como proyecto de la materia Técnica de Programación.</p>
+              <ul class="cluster" aria-label="Tecnologías">
+                <li class="badge">HTML5</li>
+                <li class="badge">CSS3</li>
+                <li class="badge">JavaScript</li>
+              </ul>
+              <div class="card__actions">
+                <button class="btn btn--secondary btn--sm js-open-project" type="button">Ver detalle</button>
+                <a class="project-card__repo" href="https://github.com/Jenny2003-roc/Lista-de-Tarea-T-cnica-de-Programaci-n" target="_blank" rel="noopener noreferrer">Repositorio</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-tech="web gestion"
+            data-problem="Las organizaciones deciden adoptar tecnología sin un método estructurado ni evidencia comparable sobre su viabilidad."
+            data-role="Scrum Master de un equipo de cuatro integrantes (interfaz, backend y datos, QA y UI/UX).">
+            <figure class="project-card__media">
+              <img src="assets/proyecto-techcheck.svg" alt="Ilustración de TechCheck con los tres pilares del modelo TOE: Tecnología, Organización y Entorno" width="800" height="450">
+              <figcaption>Portada del proyecto TechCheck</figcaption>
+            </figure>
+            <div class="card__body">
+              <h3 class="card__title">TechCheck</h3>
+              <p class="project-card__desc">Sistema web para auditar la viabilidad tecnológica bajo el modelo TOE (Tecnología, Organización, Entorno). Es la reingeniería del prototipo GUIOSPRO FLOSS.</p>
+              <ul class="cluster" aria-label="Tecnologías">
+                <li class="badge">Modelo TOE</li>
+                <li class="badge">Scrum</li>
+                <li class="badge">QA</li>
+                <li class="badge">ClickUp</li>
+              </ul>
+              <div class="card__actions">
+                <button class="btn btn--secondary btn--sm js-open-project" type="button">Ver detalle</button>
+                <a class="project-card__repo" href="https://github.com/Jenny2003-roc/TechCheckPro" target="_blank" rel="noopener noreferrer">Repositorio</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-tech="ia python"
+            data-problem="La producción de banano requiere identificar oportunamente posibles enfermedades y analizar información del cultivo para apoyar decisiones de manejo."
+            data-role="Participación en el desarrollo del proyecto Banaia, aportando en el análisis, desarrollo y organización de la solución tecnológica.">
+            <figure class="project-card__media">
+              <img src="assets/proyecto-epp.svg" alt="Ilustración del proyecto Banaia" width="800" height="450">
+              <figcaption>Portada del proyecto Banaia</figcaption>
+            </figure>
+            <div class="card__body">
+              <h3 class="card__title">Banaia</h3>
+              <p class="project-card__desc">Proyecto enfocado en el uso de inteligencia artificial para apoyar el monitoreo del cultivo de banano. Busca analizar información del cultivo y contribuir a la detección temprana de enfermedades, generando recomendaciones que ayuden a mejorar el manejo y la productividad.</p>
+              <ul class="cluster" aria-label="Tecnologías">
+                <li class="badge">Python</li>
+                <li class="badge">Inteligencia Artificial</li>
+              </ul>
+              <div class="card__actions">
+                <button class="btn btn--secondary btn--sm js-open-project" type="button">Ver detalle</button>
+                <a class="project-card__repo" href="https://github.com/juliojimenez200/proyecto-final" target="_blank" rel="noopener noreferrer">Repositorio</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
       </div>
     </section>
 

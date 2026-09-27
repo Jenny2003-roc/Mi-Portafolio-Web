@@ -637,7 +637,17 @@
 }
 
 .grid--projects {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-lg);
+  overflow-x: auto;
+  padding-bottom: var(--space-sm);
+  scroll-snap-type: x mandatory;
+}
+
+.grid--projects .project-card {
+  flex: 0 0 min(85%, 24rem);
+  scroll-snap-align: start;
 }
 
 .form-box {

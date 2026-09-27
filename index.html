@@ -324,9 +324,156 @@
       </div>
     </section>
 
-    <section class="section" id="design-system" aria-labelledby="ds-titulo">
+<section class="section" id="design-system" aria-labelledby="ds-titulo">
       <div class="container">
-        <h2 id="ds-titulo">Design System / Componentes</h2>
+        <header class="section__header">
+          <h2 id="ds-titulo">Design System / Componentes</h2>
+          <p>Decisiones visuales y componentes reutilizables de este portafolio. Los valores se leen en vivo desde las CSS Custom Properties: cambia el tema y se actualizan.</p>
+        </header>
+
+        <div class="ds-group">
+          <h3>Colores</h3>
+          <ul class="grid">
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-primary)"></div><div class="swatch__info"><span class="swatch__name">Primary</span><code>--color-primary</code><br><code data-token="--color-primary"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-secondary)"></div><div class="swatch__info"><span class="swatch__name">Secondary</span><code>--color-secondary</code><br><code data-token="--color-secondary"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-background)"></div><div class="swatch__info"><span class="swatch__name">Background</span><code>--color-background</code><br><code data-token="--color-background"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-surface)"></div><div class="swatch__info"><span class="swatch__name">Surface</span><code>--color-surface</code><br><code data-token="--color-surface"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-text)"></div><div class="swatch__info"><span class="swatch__name">Text</span><code>--color-text</code><br><code data-token="--color-text"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-text-muted)"></div><div class="swatch__info"><span class="swatch__name">Text muted</span><code>--color-text-muted</code><br><code data-token="--color-text-muted"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-success)"></div><div class="swatch__info"><span class="swatch__name">Success</span><code>--color-success</code><br><code data-token="--color-success"></code></div></li>
+            <li class="swatch"><div class="swatch__color" style="--swatch: var(--color-danger)"></div><div class="swatch__info"><span class="swatch__name">Danger</span><code>--color-danger</code><br><code data-token="--color-danger"></code></div></li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3>Tipografía</h3>
+          <div class="ds-block ds-type">
+            <p class="text-muted text-sm">Familia principal: <code data-token="--font-primary"></code></p>
+            <p class="h1">Título h1</p>
+            <p class="h2">Título h2</p>
+            <p class="h3">Título h3</p>
+            <p>Párrafo base. Sirve para descripciones y contenido corrido con una longitud de línea cómoda.</p>
+            <p class="text-muted text-sm">Texto secundario para notas, metadatos y descripciones cortas.</p>
+            <p><a href="#design-system">Enlace de ejemplo</a></p>
+            <p class="mono text-muted text-sm">Fuente mono: <code data-token="--font-mono"></code></p>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <h3>Espaciado</h3>
+          <ul class="ds-block">
+            <li class="spacing-row"><code>--space-xs</code><code data-token="--space-xs"></code><span class="spacing-row__bar" style="--size: var(--space-xs)"></span></li>
+            <li class="spacing-row"><code>--space-sm</code><code data-token="--space-sm"></code><span class="spacing-row__bar" style="--size: var(--space-sm)"></span></li>
+            <li class="spacing-row"><code>--space-md</code><code data-token="--space-md"></code><span class="spacing-row__bar" style="--size: var(--space-md)"></span></li>
+            <li class="spacing-row"><code>--space-lg</code><code data-token="--space-lg"></code><span class="spacing-row__bar" style="--size: var(--space-lg)"></span></li>
+            <li class="spacing-row"><code>--space-xl</code><code data-token="--space-xl"></code><span class="spacing-row__bar" style="--size: var(--space-xl)"></span></li>
+            <li class="spacing-row"><code>--space-2xl</code><code data-token="--space-2xl"></code><span class="spacing-row__bar" style="--size: var(--space-2xl)"></span></li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3>Componentes</h3>
+          <div class="ds-components">
+
+            <div class="ds-block">
+              <h4>Botones</h4>
+              <div class="cluster">
+                <button class="btn btn--primary" type="button">Botón primario</button>
+                <button class="btn btn--secondary" type="button">Botón secundario</button>
+              </div>
+            </div>
+
+            <div class="ds-block">
+              <h4>Skill / Badge</h4>
+              <ul class="cluster">
+                <li class="badge">HTML5</li>
+                <li class="badge">Python</li>
+                <li class="badge">Scrum</li>
+              </ul>
+              <p class="badge badge--status" style="margin-top: var(--space-md)"><span class="badge__dot" aria-hidden="true"></span>Estado disponible</p>
+            </div>
+
+            <div class="ds-block">
+              <h4>Chip de filtro y alternador de tema</h4>
+              <div class="cluster">
+                <span class="chip" aria-hidden="true">Inactivo</span>
+                <span class="chip" aria-pressed="true" aria-hidden="true">Activo</span>
+              </div>
+              <div class="theme-toggle" style="margin-top: var(--space-md)" aria-hidden="true">
+                <span class="theme-toggle__btn" aria-pressed="true"><svg class="icon"><use href="#i-sun"/></svg></span>
+                <span class="theme-toggle__btn"><svg class="icon"><use href="#i-moon"/></svg></span>
+              </div>
+            </div>
+
+            <div class="ds-block">
+              <h4>Navbar</h4>
+              <nav class="ds-navbar-demo" aria-label="Ejemplo de navbar">
+                <div class="navbar">
+                  <ul class="navbar__list">
+                    <li><a class="nav-link" href="#design-system" aria-current="true">Inicio</a></li>
+                    <li><a class="nav-link" href="#design-system">Proyectos</a></li>
+                    <li><a class="nav-link" href="#design-system">Contacto</a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+
+            <div class="ds-block">
+              <h4>Inputs y textarea</h4>
+              <div class="form">
+                <div class="field">
+                  <label class="field__label" for="ds-input">Campo de texto</label>
+                  <input class="input" id="ds-input" type="text" placeholder="Escribe aquí">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="ds-textarea">Área de texto</label>
+                  <textarea class="textarea" id="ds-textarea" placeholder="Escribe un mensaje"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="ds-block">
+              <h4>Card de proyecto</h4>
+              <article class="card project-card">
+                <figure class="project-card__media">
+                  <img src="assets/proyecto-portafolio.svg" alt="Ilustración de ejemplo para la card de proyecto" width="800" height="450">
+                  <figcaption>Ejemplo de portada</figcaption>
+                </figure>
+                <div class="card__body">
+                  <p class="card__title h3">Nombre del proyecto</p>
+                  <p>Descripción breve del problema que resuelve.</p>
+                  <ul class="cluster"><li class="badge">Tecnología</li></ul>
+                  <div class="card__actions">
+                    <button class="btn btn--secondary btn--sm" type="button">Ver detalle</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="ds-block">
+              <h4>Card de skill</h4>
+              <div class="skill">
+                <span class="skill__icon" aria-hidden="true">Py</span>
+                <div>
+                  <p class="skill__name">Nombre de la habilidad</p>
+                  <p class="skill__desc">Descripción breve.</p>
+                  <div class="meter"><span class="meter__bars" aria-hidden="true"><span class="meter__bar meter__bar--on"></span><span class="meter__bar meter__bar--on"></span><span class="meter__bar"></span></span><span>Intermedio</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <h3>Radios y sombras</h3>
+          <ul class="ds-components">
+            <li class="ds-block" style="border-radius: var(--radius-sm)"><code>--radius-sm</code> <code data-token="--radius-sm"></code></li>
+            <li class="ds-block" style="border-radius: var(--radius-md)"><code>--radius-md</code> <code data-token="--radius-md"></code></li>
+            <li class="ds-block" style="border-radius: var(--radius-lg)"><code>--radius-lg</code> <code data-token="--radius-lg"></code></li>
+            <li class="ds-block" style="box-shadow: var(--shadow-card)"><code>--shadow-card</code></li>
+          </ul>
+        </div>
       </div>
     </section>
 

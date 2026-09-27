@@ -43,3 +43,54 @@
   });
 
 })();
+
+  const menuToggle = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('site-nav');
+
+  const setMenu = (open) => {
+    nav.classList.toggle('is-open', open);
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menuToggle.querySelector('use').setAttribute('href', open ? '#i-close' : '#i-menu');
+  };
+
+  menuToggle.addEventListener('click', () => {
+    setMenu(!nav.classList.contains('is-open'));
+  });
+
+  nav.addEventListener('click', (event) => {
+    if (event.target.closest('a')) setMenu(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+      setMenu(false);
+      menuToggle.focus();
+    }
+  });
+
+  window.matchMedia('(min-width: 60.0625rem)').addEventListener('change', (event) => {
+    if (event.matches) setMenu(false);
+  });
+
+  const navLinks = [...nav.querySelectorAll('a[href^="#"]')];
+  const sections = navLinks
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          const active = link.getAttribute('href') === `#${entry.target.id}`;
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    sections.forEach((section) => observer.observe(section));
+  }
+
+})();

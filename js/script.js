@@ -42,8 +42,6 @@
     });
   });
 
-})();
-
   const menuToggle = document.querySelector('.menu-toggle');
   const nav = document.getElementById('site-nav');
 
@@ -93,9 +91,6 @@
     sections.forEach((section) => observer.observe(section));
   }
 
-})();
-
-  /* ---------- 4. Filtro de proyectos ---------- */
   const filterButtons = document.querySelectorAll('.filter-bar [data-filter]');
   const projectCards = document.querySelectorAll('#projects-grid .project-card');
   const filterStatus = document.getElementById('filter-status');
@@ -165,11 +160,100 @@
   modal.querySelector('.modal__close').addEventListener('click', () => modal.close());
 
   modal.addEventListener('click', (event) => {
-    if (event.target === modal) modal.close(); // clic en el fondo
+    if (event.target === modal) modal.close();
   });
 
   modal.addEventListener('close', () => {
     if (lastTrigger) lastTrigger.focus();
   });
 
-})();
+  const form = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  const rules = {
+    nombre: (value) => (value.trim().length >= 3 ? '' : 'Escribe tu nombre (mínimo 3 caracteres).'),
+    correo: (value) => {
+      if (!value.trim()) return 'Escribe tu correo electrónico.';
+      return emailPattern.test(value.trim()) ? '' : 'Usa un correo válido, por ejemplo nombre@dominio.com.';
+    },
+    mensaje: (value) => (value.trim().length >= 20 ? '' : 'El mensaje debe tener al menos 20 caracteres.'),
+  };
+
+  const validateField = (field) => {
+    const message = rules[field.name](field.value);
+    const error = document.getElementById(`error-${field.name}`);
+    error.textContent = message;
+    field.setAttribute('aria-invalid', String(Boolean(message)));
+    return !message;
+  };
+
+  const fields = Object.keys(rules).map((name) => form.elements[name]);
+
+  fields.forEach((field) => {
+    field.addEventListener('blur', () => validateField(field));
+    field.addEventListener('input', () => {
+      if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+    });
+  });
+
+  const submitBtn = document.getElementById('form-submit');
+
+  const setStatus = (text, isError = false) => {
+    formStatus.textContent = text;
+    formStatus.classList.toggle('form__status--error', isError);
+  };
+
+  const openMailClient = (nombre, correo, mensaje) => {
+    const subject = encodeURIComponent(`Contacto desde el portafolio: ${nombre}`);
+    const body = encodeURIComponent(`${mensaje}\n\nResponder a: ${correo}`);
+    window.location.href = `mailto:${form.dataset.to}?subject=${subject}&body=${body}`;
+  };
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setStatus('');
+
+    const results = fields.map(validateField);
+    if (results.includes(false)) {
+      fields[results.indexOf(false)].focus();
+      return;
+    }
+
+    const nombre = form.nombre.value.trim();
+    const correo = form.correo.value.trim();
+    const mensaje = form.mensaje.value.trim();
+
+    if (form.elements.botcheck && form.elements.botcheck.checked) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    try {
+      const response = await fetch(form.dataset.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: form.dataset.accessKey,
+          subject: `Contacto desde el portafolio: ${nombre}`,
+          from_name: nombre,
+          name: nombre,
+          email: correo,
+          message: mensaje,
+        }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) throw new Error(data.message || 'Error de envío');
+
+      setStatus('¡Mensaje enviado! Te responderé pronto.');
+      form.reset();
+      fields.forEach((field) => field.removeAttribute('aria-invalid'));
+    } catch {
+      setStatus('No se pudo enviar desde la página. Se abrirá tu correo para que lo envíes desde allí.', true);
+      openMailClient(nombre, correo, mensaje);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar mensaje';
+    }
+  });

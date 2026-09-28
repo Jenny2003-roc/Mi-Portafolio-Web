@@ -170,9 +170,15 @@
   const form = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status');
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  // Solo letras (con tildes y ñ), espacios, apóstrofo y guion
+  const onlyLettersPattern = /^[\p{L}]+(?:[ '’-][\p{L}]+)*$/u;
+  const notAllowedInName = /[^\p{L}\s'’-]/gu;
 
   const rules = {
-    nombre: (value) => (value.trim().length >= 3 ? '' : 'Escribe tu nombre (mínimo 3 caracteres).'),
+    nombre: (value) => {
+      if (value.trim().length < 3) return 'Escribe tu nombre (mínimo 3 caracteres).';
+      return onlyLettersPattern.test(value.trim().replace(/\s+/g, ' ')) ? '' : 'El nombre solo puede contener letras.';
+    },
     correo: (value) => {
       if (!value.trim()) return 'Escribe tu correo electrónico.';
       return emailPattern.test(value.trim()) ? '' : 'Usa un correo válido, por ejemplo nombre@dominio.com.';
@@ -189,6 +195,15 @@
   };
 
   const fields = Object.keys(rules).map((name) => form.elements[name]);
+
+  // El nombre no acepta números ni símbolos: se eliminan al escribir o pegar
+  form.nombre.addEventListener('input', () => {
+    const clean = form.nombre.value
+      .replace(notAllowedInName, '')
+      .replace(/^\s+/, '')
+      .replace(/\s{2,}/g, ' ');
+    if (clean !== form.nombre.value) form.nombre.value = clean;
+  });
 
   fields.forEach((field) => {
     field.addEventListener('blur', () => validateField(field));

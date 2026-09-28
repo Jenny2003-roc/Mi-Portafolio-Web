@@ -81,10 +81,6 @@ No requiere instalar dependencias. El formulario de contacto necesita conexión 
 
 ![Contacto en escritorio](assets/capturas/contacto-escritorio.png)
 
-**Versión móvil**
-
-<img src="assets/capturas/inicio-movil.png" alt="Inicio en móvil" width="280"> <img src="assets/capturas/proyectos-movil.png" alt="Proyectos en móvil" width="280">
-
 ## Estructura del proyecto
 
 ```
